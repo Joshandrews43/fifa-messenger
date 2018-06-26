@@ -1,0 +1,23 @@
+{
+  "name": "fifa-messenger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshandrews43/fifa-messenger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joshandrews43/fifa-messenger/issues"
+  },
+  "homepage": "https://github.com/Joshandrews43/fifa-messenger#readme",
+  "dependencies": {
+    "unirest": "^0.5.1"
+  }
+}
