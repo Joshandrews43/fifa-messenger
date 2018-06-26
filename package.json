@@ -16,8 +16,14 @@
   "bugs": {
     "url": "https://github.com/Joshandrews43/fifa-messenger/issues"
   },
+  "engines": {
+    "node": "8.9.3"
+  },
   "homepage": "https://github.com/Joshandrews43/fifa-messenger#readme",
   "dependencies": {
+    "http": "0.0.0",
+    "node-schedule": "^1.3.0",
+    "twilio": "^3.17.4",
     "unirest": "^0.5.1"
   }
 }
