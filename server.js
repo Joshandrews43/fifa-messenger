@@ -1,60 +1,81 @@
 var http = require('http')
-var getData = require('./getData')
+var dataManager = require('./dataManager')
 var schedule = require('node-schedule')
+var messenger = require('./send_sms')
 
 var earlyDate = new Date(2018, 5, 27, 7, 0, 0)
-var lateDate = new Date(2018, 5, 27, 11, 0, 0)
 var ruleEarly = new schedule.RecurrenceRule();
 ruleEarly.dayOfWeek = [0, new schedule.Range(0,6)]
-ruleEarly.hour = 16
-ruleEarly.minute = 18
-ruleEarly.second = 55
-ruleLate = new schedule.RecurrenceRule();
-ruleLate.hour = 11
-ruleLate.minute = 0
+ruleEarly.hour = 20
+ruleEarly.minute = 9
 
-var lastGoalScored = 0
+var lastIdForGoal = 0
+var dateLastScored = new Date()
 
+console.log("we're live")
 
-var testJSON = { id: 171,
-				 person_id: 82,
-				 game_id: 64,
-				 team_id: 127,
-				 minute: 113,
-				 score1: 1,
-				 score2: 0,
-				 penalty: 'f',
-				 owngoal: 'f',
-				 created_at: '2014-11-28 11:46:31.197171',
-				 updated_at: '2014-11-28 11:46:31.197171' }
+function dataMethod() {	
+	console.log("Running scheduled job at " + new Date())		
+	dataManager.getData(function(parsedJSON){
+		var numActiveGames = parsedJSON.length - 1;
+		for(i = 0; i < numActiveGames; i++) {
+			//change this if to something else
+			console.log((new Date(parsedJSON[i]["last_score_update_at"])) > dateLastScored)
 
-function dataMethod() {			
-	getData.getData(function(parsedJSON) {
-		console.log(parsedJSON[parsedJSON.length-1])
-
-		if(lastGoalScored == 0) {
- 			lastGoalScored = parsedJSON[parsedJSON.length-1]
+			if((new Date(parsedJSON[i]["last_score_update_at"])) > dateLastScored) {
+				dateLastScored = new Date(parsedJSON[i]["last_score_update_at"])
+				goalWasScored(parsedJSON[i])
+			}
 		}
-
-		if(lastGoalScored["id"] == parsedJSON[parsedJSON.length-1]["id"]) {
-			console.log("no goals scored in last minute")
-		} else {
-			console.log("goal was scored")
-			lastGoalScored = parsedJSON[parsedJSON.length-1]
-			goalWasScored(lastGoalScored)
-		}
-
-		
-
-		})
+	});
 }
 
 var x = schedule.scheduleJob(ruleEarly, function() {
-		setInterval(dataMethod, 10000);
+		setInterval(dataMethod, 60000);
 	})
  
 function goalWasScored(goalData) {
 
+	var homeTeam = goalData["home_team_country"];
+	var awayTeam = goalData["away_team_country"];
+
+	var homeTeamEvents = goalData["home_team_events"];
+	var awayTeamEvents = goalData["away_team_events"];
+
+	var messageText = ""
+
+	for(var i = 0; i < homeTeamEvents.length; i++) {
+		if(homeTeamEvents[i]["type_of_event"] == "goal") {
+			//check if the goal is the most recent update; if yes, new goal scored.
+			if(homeTeamEvents[i]["id"] > lastIdForGoal) {
+				lastIdForGoal = homeTeamEvents[i]["id"];
+				messageText = "" + String(homeTeam) + " vs. " + String(awayTeam) + ":\n";
+				messageText += String(homeTeamEvents[i]["player"]) + " scores at the " + 
+							   String(homeTeamEvents[i]["time"]) + " for " + String(homeTeam) + ".\n" +
+							   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
+							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
+				console.log(messageText)
+			}
+		}
+	}
+
+	for(var i = 0; i < awayTeamEvents.length; i++) {
+		if(awayTeamEvents[i]["type_of_event"] == "goal") {
+			//check if the goal is the most recent update; if yes, new goal scored.
+			if(awayTeamEvents[i]["id"] > lastIdForGoal) {
+				lastIdForGoal = awayTeamEvents[i]["id"];
+				messageText = "" + String(homeTeam) + " vs. " + String(awayTeam) + ":\n";
+				messageText += String(awayTeamEvents[i]["player"]) + " scores at the " + 
+							   String(awayTeamEvents[i]["time"]) + " for " + String(awayTeam) + ".\n" +
+							   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
+							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
+				console.log(messageText)
+			}
+		}
+	}
+
+	//messenger.send_sms(messageText, '+13104248136')
+	messenger.send_sms(messageText, '+13109992883')
 }
 
 
@@ -64,7 +85,6 @@ const PORT = process.env.PORT || 8080;
 // Create a server, uses `handleRequest` which is function that takes
 // care of providing requested data
 const server = http.createServer(function(req, res) {
-	res.write("hello")
 	res.end()
 });
 
