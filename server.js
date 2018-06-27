@@ -6,8 +6,8 @@ var messenger = require('./send_sms')
 var earlyDate = new Date(2018, 5, 27, 7, 0, 0)
 var ruleEarly = new schedule.RecurrenceRule();
 ruleEarly.dayOfWeek = [0, new schedule.Range(0,6)]
-ruleEarly.hour = 7
-ruleEarly.minute = 0
+ruleEarly.hour = 14
+ruleEarly.minute = 1
 
 var lastIdForGoal = 0
 var dateLastScored = new Date()
