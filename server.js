@@ -12,6 +12,7 @@ ruleEarly.minute = 1
 var awayTeamGoals = 0;
 var homeTeamGoals = 0;
 var dateLastScored = new Date()
+var lastIdForGoal = 0;
 var message;
 
 console.log("we're live")
