@@ -6,8 +6,8 @@ var messenger = require('./send_sms')
 var earlyDate = new Date(2018, 5, 27, 7, 0, 0)
 var ruleEarly = new schedule.RecurrenceRule();
 ruleEarly.dayOfWeek = [0, new schedule.Range(0,6)]
-ruleEarly.hour = 20
-ruleEarly.minute = 9
+ruleEarly.hour = 7
+ruleEarly.minute = 0
 
 var lastIdForGoal = 0
 var dateLastScored = new Date()
@@ -74,7 +74,7 @@ function goalWasScored(goalData) {
 		}
 	}
 
-	//messenger.send_sms(messageText, '+13104248136')
+	messenger.send_sms(messageText, '+13104248136')
 	messenger.send_sms(messageText, '+13109992883')
 }
 
