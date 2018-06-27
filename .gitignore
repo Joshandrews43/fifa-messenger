@@ -1,4 +1,5 @@
-fifa-messenger-firebase-adminsdk-aewms-1569cfe637.json
-.firebaserc
-.DS_Store
-.DS_STORE
+*.firebaserc
+*.DS_Store
+*.DS_STORE
+*.env
+/node_modules

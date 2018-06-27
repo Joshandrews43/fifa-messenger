@@ -3,6 +3,7 @@ var dataManager = require('./dataManager')
 var schedule = require('node-schedule')
 var messenger = require('./send_sms')
 var firebase = require("./firebase.js")
+require('dotenv').config();
 
 var earlyDate = new Date(2018, 5, 27, 7, 0, 0)
 var ruleEarly = new schedule.RecurrenceRule();
