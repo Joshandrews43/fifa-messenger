@@ -32,6 +32,7 @@ function dataMethod() {
 function sendMessages() {
 	//My brother and my phone number.
 	messenger.send_sms(message, '+13104248136')
+	messenger.send_sms(message, '+13104183319')
 	messenger.send_sms(message, '+13109992883')
 }
 
