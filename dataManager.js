@@ -1,7 +1,7 @@
 var unirest = require('unirest')
 var firebase = require('./firebase.js')
 
-var currentMatchesURL = "https://worldcup.sfg.io/matches/today"
+var currentMatchesURL = "https://worldcup.sfg.io/matches/current"
 
 var lastIdForGoal = 0;
 
