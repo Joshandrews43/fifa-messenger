@@ -21,8 +21,8 @@ function dataMethod() {
 	dataManager.getData(function(parsedJSON){
 		var numActiveGames = parsedJSON.length - 1;
 		for(i = 0; i < numActiveGames; i++) {
-			console.log(dateLastScored.getTime() == new Date(parsedJSON[i]["last_score_update_at"]).getTime())
-			if(dateLastScored < new Date(parsedJSON[i]["last_score_update_at"])) {
+			console.log("DateLastScored: " + dateLastScored.getTime() + " & last goal at: " +  new Date(parsedJSON[i]["last_score_update_at"]).getTime())
+			if(dateLastScored.getTime() < new Date(parsedJSON[i]["last_score_update_at"]).getTime()) {
 				console.log("passed check for time")
 				dateLastScored = new Date(parsedJSON[i]["last_score_update_at"])
 				checkForGoals(parsedJSON[i])
@@ -36,7 +36,7 @@ setInterval(dataMethod, 60000);
  
 function checkForGoals(goalData) {
 
-	console.log("inside goal was scored.")
+	console.log("Inside check for goals.")
 	
 	var homeTeam = goalData["home_team_country"];
 	var awayTeam = goalData["away_team_country"];
@@ -59,6 +59,8 @@ function checkForGoals(goalData) {
 							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 				console.log(messageText)
 				message = messageText
+				console.log("sending SMS")
+				sendMessages()
 			}
 		}
 	}
@@ -76,10 +78,16 @@ function checkForGoals(goalData) {
 							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 				console.log(messageText)
 				message = messageText
+				console.log("sending SMS")
+				sendMessages()
 			}
 		}
 	}
-	console.log("sending SMS")
+	
+
+}
+
+function sendMessages() {
 	messenger.send_sms(message, '+13104248136')
 	messenger.send_sms(message, '+13109992883')
 }
