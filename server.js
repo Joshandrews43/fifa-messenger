@@ -15,7 +15,7 @@ var message;
 
 console.log("We're live")
 
-setInterval(dataMethod, 15000);
+setInterval(dataMethod, 60000);
 
 function dataMethod() {	
 	console.log("Running scheduled job at " + new Date())		
