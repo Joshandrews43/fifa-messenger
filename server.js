@@ -19,10 +19,8 @@ function dataMethod() {
 	dataManager.getData(function(parsedJSON){
 		var numActiveGames = parsedJSON.length - 1;
 		for(i = 0; i < numActiveGames; i++) {
-			//change this if to something else
-			console.log((new Date(parsedJSON[i]["last_score_update_at"])) > dateLastScored)
-
 			if((new Date(parsedJSON[i]["last_score_update_at"])) > dateLastScored) {
+				console.log("inside if statement.")
 				dateLastScored = new Date(parsedJSON[i]["last_score_update_at"])
 				goalWasScored(parsedJSON[i])
 			}
@@ -30,12 +28,13 @@ function dataMethod() {
 	});
 }
 
-var x = schedule.scheduleJob(ruleEarly, function() {
-		setInterval(dataMethod, 60000);
-	})
+setInterval(dataMethod, 60000);
+
  
 function goalWasScored(goalData) {
 
+	console.log("inside goal was scored.")
+	
 	var homeTeam = goalData["home_team_country"];
 	var awayTeam = goalData["away_team_country"];
 
