@@ -11,6 +11,7 @@ ruleEarly.minute = 1
 
 var lastIdForGoal = 0
 var dateLastScored = new Date()
+var message;
 
 console.log("we're live")
 
@@ -19,19 +20,15 @@ function dataMethod() {
 	dataManager.getData(function(parsedJSON){
 		var numActiveGames = parsedJSON.length - 1;
 		for(i = 0; i < numActiveGames; i++) {
-			if((new Date(parsedJSON[i]["last_score_update_at"])) > dateLastScored) {
-				console.log("inside if statement.")
-				dateLastScored = new Date(parsedJSON[i]["last_score_update_at"])
-				goalWasScored(parsedJSON[i])
+				checkForGoals(parsedJSON[i])
 			}
-		}
 	});
 }
 
 setInterval(dataMethod, 60000);
 
  
-function goalWasScored(goalData) {
+function checkForGoals(goalData) {
 
 	console.log("inside goal was scored.")
 	
@@ -54,6 +51,7 @@ function goalWasScored(goalData) {
 							   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
 							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 				console.log(messageText)
+				message = messageText
 			}
 		}
 	}
@@ -69,12 +67,13 @@ function goalWasScored(goalData) {
 							   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
 							   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 				console.log(messageText)
+				message = messageText
 			}
 		}
 	}
-
-	messenger.send_sms(messageText, '+13104248136')
-	messenger.send_sms(messageText, '+13109992883')
+	console.log("sending SMS")
+	messenger.send_sms(message, '+13104248136')
+	messenger.send_sms(message, '+13109992883')
 }
 
 
