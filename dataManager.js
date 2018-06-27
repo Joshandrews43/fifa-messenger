@@ -8,6 +8,7 @@ module.exports = {
 		.end(function(result) {
 			//store match data in json
 			var parsedJson = JSON.parse(result["raw_body"])
+			//console.log(parsedJson[0])
 			callback(parsedJson)
 		})
 	}

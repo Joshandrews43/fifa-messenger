@@ -9,7 +9,8 @@ ruleEarly.dayOfWeek = [0, new schedule.Range(0,6)]
 ruleEarly.hour = 14
 ruleEarly.minute = 1
 
-var lastIdForGoal = 0
+var awayTeamGoals = 0;
+var homeTeamGoals = 0;
 var dateLastScored = new Date()
 var message;
 
@@ -20,8 +21,13 @@ function dataMethod() {
 	dataManager.getData(function(parsedJSON){
 		var numActiveGames = parsedJSON.length - 1;
 		for(i = 0; i < numActiveGames; i++) {
+			console.log(dateLastScored.getTime() == new Date(parsedJSON[i]["last_score_update_at"]).getTime())
+			if(dateLastScored < new Date(parsedJSON[i]["last_score_update_at"])) {
+				console.log("passed check for time")
+				dateLastScored = new Date(parsedJSON[i]["last_score_update_at"])
 				checkForGoals(parsedJSON[i])
 			}
+		}
 	});
 }
 
@@ -41,6 +47,7 @@ function checkForGoals(goalData) {
 	var messageText = ""
 
 	for(var i = 0; i < homeTeamEvents.length; i++) {
+		console.log( "goal for home " + (homeTeamEvents[i]["type_of_event"] == "goal"))
 		if(homeTeamEvents[i]["type_of_event"] == "goal") {
 			//check if the goal is the most recent update; if yes, new goal scored.
 			if(homeTeamEvents[i]["id"] > lastIdForGoal) {
@@ -57,6 +64,7 @@ function checkForGoals(goalData) {
 	}
 
 	for(var i = 0; i < awayTeamEvents.length; i++) {
+		console.log("goal for away_team " + (awayTeamEvents[i]["type_of_event"] == "goal"))
 		if(awayTeamEvents[i]["type_of_event"] == "goal") {
 			//check if the goal is the most recent update; if yes, new goal scored.
 			if(awayTeamEvents[i]["id"] > lastIdForGoal) {
