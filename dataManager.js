@@ -1,9 +1,17 @@
 var unirest = require('unirest')
 var firebase = require('./firebase.js')
+var messenger = require('./send_sms.js')
 
 var currentMatchesURL = "https://worldcup.sfg.io/matches/current"
 
 var lastIdForGoal = 0;
+
+function sendMessages() {
+	//My brother and my phone number.
+	messenger.send_sms(message, '+13104248136')
+	messenger.send_sms(message, '+13104183319')
+	messenger.send_sms(message, '+13109992883')
+}
 
 module.exports = {
 	getData: function(callback) {
@@ -22,7 +30,7 @@ module.exports = {
 		var homeTeam = goalData["home_team_country"];
 		var awayTeam = goalData["away_team_country"];
 
-		console.log("Running checkForGoals for " + homeTeam  + " vs. " + awayTeam + " at " + new Date())
+		console.log("Running checkForGoals for " + goalData["home_team"]["code"]  + " vs. " + goalData["away_team"]["code"] + " at " + new Date())
 
 		var homeTeamEvents = goalData["home_team_events"];
 		var awayTeamEvents = goalData["away_team_events"];
@@ -71,7 +79,7 @@ module.exports = {
 				}
 			}
 		}
-		if(!goalScored) { console.log("No goals scored in the " + goalData["time"])  } 
+		if(!goalScored) { console.log("No goals scored at " + goalData["time"] + " for " goalData["home_team"]["code"] " vs. " + goalData["away_team"]["code"] )  } 
 	}
 }
 
