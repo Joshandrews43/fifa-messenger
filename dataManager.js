@@ -43,7 +43,7 @@ module.exports = {
 								   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 					message = messageText
 					console.log("sending SMS with text: " + message)
-					//sendMessages()
+					sendMessages()
 				} else {
 					//console.log("No new home goals for " + goalData["home_team"]["code"])
 				}
@@ -67,7 +67,7 @@ module.exports = {
 								   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 					message = messageText
 					console.log("sending SMS with text: " + message)
-					//sendMessages()
+					sendMessages()
 				} else {
 					//console.log("No new away goals for " + goalData["away_team"]["code"])
 				}
