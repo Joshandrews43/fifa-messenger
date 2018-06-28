@@ -79,7 +79,7 @@ module.exports = {
 				}
 			}
 		}
-		if(!goalScored) { console.log("No goals scored at " + goalData["time"] + " for " goalData["home_team"]["code"] " vs. " + goalData["away_team"]["code"] )  } 
+		if(!goalScored) { console.log("No goals scored at " + goalData["time"] + " for " goalData["home_team"]["code"] + " vs. " + goalData["away_team"]["code"])  } 
 	}
 }
 
