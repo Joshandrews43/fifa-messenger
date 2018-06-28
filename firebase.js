@@ -26,29 +26,32 @@ var ref = db.ref("fifa-messenger");
 var idRef = ref.child("goalIds")
 
 
-function isDuplicate(id) {
-	var isDuplicate = false;
-	ref.child("goalIds").equalTo(id).once("value",snapshot => {
+function isDuplicate(id, callback) {
+	console.log("Checking for duplicates.")
+	var idIsADuplicate = false;
+	ref.child("goalIds").orderByChild("id_number").equalTo(id).once("value",snapshot => {
     	const goalData = snapshot.val();
     	if (goalData){
-    		console.log("goal already exists! goal number " + id);
-    		isDuplicate = true;
+    		console.log("Goal already exists; Goal id: " + id);
+    		idIsADuplicate = true;
     	}
+    	callback(idIsADuplicate)
 	});
-	return isDuplicate
 }
 
 module.exports = {
 	writeDataToDb: function(id) {
-		if(!isDuplicate(id)){
-			idRef.push({ id_number : id }, function(error) {
-				if(error){
-					console.log("ERROR: data not saved successfully: " + error)
-				} else {
-					console.log("Data saved successfully")
-				}
-			})	
-		}
-	}
+		isDuplicate(id, function(idIsADuplicate){
+			if(!idIsADuplicate){
+				idRef.push({ id_number : id }, function(error) {
+					if(error){
+						console.log("ERROR: data not saved successfully: " + error)
+					} else {
+						console.log("Goal " + id + "written to database.")
+					}
+				})	
+			}
+		})
+	}		
 }
 

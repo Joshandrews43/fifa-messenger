@@ -16,10 +16,9 @@ var message;
 
 console.log("We're live")
 
-setInterval(dataMethod, 6000);
+setInterval(dataMethod, 60000);
 
 function dataMethod() {	
-	console.log("Running scheduled job at " + new Date())		
 	dataManager.getData(function(parsedJSON){
 		var numActiveGames = parsedJSON.length;
 		for(i = 0; i < numActiveGames; i++) {
@@ -31,8 +30,8 @@ function dataMethod() {
 
 function sendMessages() {
 	//My brother and my phone number.
-	messenger.send_sms(message, '+13104248136')
-	messenger.send_sms(message, '+13104183319')
+	//messenger.send_sms(message, '+13104248136')
+	//messenger.send_sms(message, '+13104183319')
 	messenger.send_sms(message, '+13109992883')
 }
 

@@ -17,10 +17,12 @@ module.exports = {
 	},
 	checkForGoals: function(goalData) {
 
-		console.log("Running checkForGoals.")
+		var goalScored = false;
 		
 		var homeTeam = goalData["home_team_country"];
 		var awayTeam = goalData["away_team_country"];
+
+		console.log("Running checkForGoals for " + homeTeam  + " vs. " + awayTeam + " at " + new Date())
 
 		var homeTeamEvents = goalData["home_team_events"];
 		var awayTeamEvents = goalData["away_team_events"];
@@ -29,11 +31,11 @@ module.exports = {
 
 		for(var i = 0; i < homeTeamEvents.length; i++) {
 			if(homeTeamEvents[i]["type_of_event"] == "goal") {
-				console.log(homeTeamEvents[i]["type_of_event"] + " with id " + homeTeamEvents[i]["id"])
 				//check if the goal is the most recent update; if yes, new goal scored.
 				if(homeTeamEvents[i]["id"] > lastIdForGoal) {
-					
-					//firebase.writeDataToDb(homeTeamEvents[i]["id"])
+					goalScored = true
+					console.log("New goal scored with newer id: " + homeTeamEvents[i]["id"])
+					firebase.writeDataToDb(homeTeamEvents[i]["id"])
 
 					lastIdForGoal = homeTeamEvents[i]["id"];
 					messageText = "" + String(homeTeam) + " vs. " + String(awayTeam) + ":\n";
@@ -42,22 +44,20 @@ module.exports = {
 								   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
 								   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 					message = messageText
-					console.log("sending SMS with text: " + message)
-					//sendMessages()
-				} else {
-					//console.log("No new home goals for " + goalData["home_team"]["code"])
+					console.log("sending SMS with text:\n" + message)
+					sendMessages()
 				}
 			}
 		}
 
 		for(var i = 0; i < awayTeamEvents.length; i++) {
 			if(awayTeamEvents[i]["type_of_event"] == "goal") {
-				console.log(awayTeamEvents[i]["type_of_event"]  + " with id " + awayTeamEvents[i]["id"])
-
 				//check if the goal is the most recent update; if yes, new goal scored.
 				if(awayTeamEvents[i]["id"] > lastIdForGoal) {
+					goalScored = true
+					console.log("New goal scored with newer id: " + awayTeamEvents[i]["id"])
 
-					//firebase.writeDataToDb(awayTeamEvents[i]["id"])
+					firebase.writeDataToDb(awayTeamEvents[i]["id"])
 
 					lastIdForGoal = awayTeamEvents[i]["id"];
 					messageText = "" + String(homeTeam) + " vs. " + String(awayTeam) + ":\n";
@@ -66,13 +66,12 @@ module.exports = {
 								   String(goalData["home_team"]["code"]) + ": " + goalData["home_team"]["goals"] + " " +
 								   String(goalData["away_team"]["code"]) + ": " + goalData["away_team"]["goals"];
 					message = messageText
-					console.log("sending SMS with text: " + message)
-					//sendMessages()
-				} else {
-					//console.log("No new away goals for " + goalData["away_team"]["code"])
+					console.log("sending SMS with text:\n" + message)
+					sendMessages()
 				}
 			}
 		}
+		if(!goalScored) { console.log("No goals scored in the " + goalData["time"])  } 
 	}
 }
 

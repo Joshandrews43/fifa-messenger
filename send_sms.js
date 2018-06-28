@@ -1,9 +1,9 @@
 //send_sms.js
 
-// const accountSid = process.env.accountSid;
-// const authToken = process.env.authToken;
-const accountSid = 'AC9a24fbbe2fc06def60f6bef30141513c'
- const authToken = 'e7fcb75012b8e39b5377ae135d5d5348'
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
+//const accountSid = 'AC9a24fbbe2fc06def60f6bef30141513c'
+//const authToken = 'e7fcb75012b8e39b5377ae135d5d5348'
 const client = require('twilio')(accountSid, authToken);
 
 
