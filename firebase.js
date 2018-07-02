@@ -47,7 +47,7 @@ module.exports = {
 					if(error){
 						console.log("ERROR: data not saved successfully: " + error)
 					} else {
-						console.log("Goal " + id + "written to database.")
+						console.log("Goal " + id + " written to database.")
 					}
 				})	
 			}

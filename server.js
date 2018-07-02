@@ -14,9 +14,10 @@ ruleEarly.minute = 1
 var dateLastScored = new Date()
 var message;
 
-console.log("We're live")
-
 setInterval(dataMethod, 60000);
+setInterval(function() {
+    http.get("http://fifa-messenger.herokuapp.com");
+}, 300000);
 
 function dataMethod() {	
 	dataManager.getData(function(parsedJSON){
@@ -27,14 +28,6 @@ function dataMethod() {
 		}
 	});
 }
-
-function sendMessages() {
-	//My brother and my phone number.
-	//messenger.send_sms(message, '+13104248136')
-	//messenger.send_sms(message, '+13104183319')
-	messenger.send_sms(message, '+13109992883')
-}
-
 
 // Use the environment variable or use a given port
 const PORT = process.env.PORT || 8080;

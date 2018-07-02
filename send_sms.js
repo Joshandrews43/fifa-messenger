@@ -15,7 +15,7 @@ module.exports = {
 	     from: '+18188627338',
 	     to: '' + phoneNumber
 	   })
-	  .then(message => console.log(message.sid + "message sent"))
+	  .then(message => console.log("SMS sent with id: " + message.sid))
 	  .done();
 	}
 }
