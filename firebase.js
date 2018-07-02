@@ -5,24 +5,24 @@ var db = require("firebase/database");
 var admin = require("firebase-admin");
 require('dotenv').config();
 
-var serviceAccount = require("./fifa-messenger-firebase-adminsdk-aewms-1569cfe637.json");
+var serviceAccount = require("./fifa-messenger-b883a-firebase-adminsdk-fudi6-e46fb188c3.js");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fifa-messenger.firebaseio.com"
+  databaseURL: "https://fifa-messenger-b883a.firebaseio.com"
 });
 
-var config = {
-	apiKey: process.env.firebaseAPIKey,
-    authDomain: "fifa-messenger.firebaseapp.com",
-    databaseURL: "https://fifa-messenger.firebaseio.com",
-    projectId: "fifa-messenger",
-    storageBucket: "",
-    messagingSenderId: process.env.messagingSenderId
- };
+ var config = {
+    apiKey: "AIzaSyDk6Ep7s4ihrU5J2yKX39a1bCNJmPrQyXc",
+    authDomain: "fifa-messenger-b883a.firebaseapp.com",
+    databaseURL: "https://fifa-messenger-b883a.firebaseio.com",
+    projectId: "fifa-messenger-b883a",
+    storageBucket: "fifa-messenger-b883a.appspot.com",
+    messagingSenderId: "163905594053"
+  };
 
 var db = admin.database();
-var ref = db.ref("fifa-messenger");
+var ref = db.ref("fifa-messenger-b883a");
 var idRef = ref.child("goalIds")
 
 
