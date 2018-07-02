@@ -5,6 +5,7 @@ var db = require("firebase/database");
 var admin = require("firebase-admin");
 require('dotenv').config();
 
+console.log(require("./fifa-messenger-b883a-firebase-adminsdk-fudi6-e46fb188c3.js"));
 var serviceAccount = require("./fifa-messenger-b883a-firebase-adminsdk-fudi6-e46fb188c3.js");
 
 admin.initializeApp({
