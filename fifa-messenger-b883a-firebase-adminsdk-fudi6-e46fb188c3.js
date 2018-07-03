@@ -2,7 +2,7 @@ module.exports = {
 "type": "service_account",
 "project_id": "fifa-messenger-b883a",
 "private_key_id": process.env.private_key_id,
-"private_key": process.env.private_key.replace("\\n", "\n"),
+"private_key": process.env.private_key.replace(/\\n/g, "\n"),
 "client_email": "firebase-adminsdk-fudi6@fifa-messenger-b883a.iam.gserviceaccount.com",
 "client_id": process.env.client_id,
 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
